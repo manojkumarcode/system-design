@@ -10,6 +10,18 @@ concatenation — how you structure it directly determines groundedness,
 citation accuracy, and how gracefully the system degrades when retrieval
 comes back weak or empty.
 
+## What Is Prompt Augmentation?
+
+Prompt augmentation is the process of enriching the user's original
+prompt with additional contextual information before sending it to the
+LLM. In a RAG system, this typically includes retrieved documents from a
+vector database, system instructions, conversation history, user
+metadata, and application-specific context. The goal is to ground the
+LLM in relevant enterprise knowledge so it can generate accurate,
+context-aware responses while reducing hallucinations. The term
+"augmentation" literally means enhancing the original prompt by adding
+useful information.
+
 ## Diagram
 
 See [`diagrams/prompt-construction.mmd`](diagrams/prompt-construction.mmd).
