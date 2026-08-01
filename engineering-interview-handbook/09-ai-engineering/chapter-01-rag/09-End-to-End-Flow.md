@@ -179,4 +179,4 @@ without hesitation.
 
 ## Next Chapter
 
-10 – Spring AI Implementation
+[10 – Spring AI Implementation](10-Spring-AI-Implementation.md)

@@ -171,4 +171,4 @@ upgrade is worth doing.
 
 ## Next Chapter
 
-06 – Vector Search
+[06 – Vector Search](06-Vector-Search.md)

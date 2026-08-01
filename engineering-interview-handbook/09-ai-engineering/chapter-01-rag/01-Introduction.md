@@ -50,4 +50,5 @@ Workflow failure -> Spring AI -> Embedding -> MongoDB Atlas Vector Search -> Sim
 5. How do you reduce hallucinations?
 
 ## Next Chapter
-02 – RAG Architecture
+
+[02 – RAG Architecture](02-RAG-Architecture.md)

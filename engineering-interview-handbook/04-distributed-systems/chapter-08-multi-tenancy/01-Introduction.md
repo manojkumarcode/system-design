@@ -157,4 +157,4 @@ multi-tenancy for this specific system."
 
 ## Next Chapter
 
-02 – Tenant Isolation Patterns
+[02 – Tenant Isolation Patterns](02-Tenant-Isolation-Patterns.md)

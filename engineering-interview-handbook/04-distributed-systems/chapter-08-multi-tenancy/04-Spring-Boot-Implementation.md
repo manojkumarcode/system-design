@@ -275,4 +275,4 @@ reactive-context caveat, is a strong, specific signal.
 
 ## Next Chapter
 
-05 – Multi-Tenant Kafka
+[05 – Multi-Tenant Kafka](05-Multi-Tenant-Kafka.md)

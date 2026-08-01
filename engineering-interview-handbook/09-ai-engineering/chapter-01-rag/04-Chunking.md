@@ -235,4 +235,4 @@ system's CI, not a one-time setup task.
 
 ## Next Chapter
 
-05 – Embeddings
+[05 – Embeddings](05-Embeddings.md)

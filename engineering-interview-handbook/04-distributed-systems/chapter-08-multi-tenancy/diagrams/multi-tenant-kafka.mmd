@@ -1,0 +1,13 @@
+flowchart TB
+    subgraph Wrong["Anti-pattern: unscoped shared topic"]
+        P1[All tenants] --> T1[payments-topic - no tenant separation]
+    end
+    subgraph SharedKeyed["Shared topic, partition key = tenantId"]
+        PA[Tenant A events] --> T2[payments-topic]
+        PB[Tenant B events] --> T2
+        T2 -->|key: tenantId, ordered per tenant| PART[Partitions]
+    end
+    subgraph PerTenant["Topic per tenant"]
+        PC[Tenant A] --> TA[tenant-a-payments]
+        PD[Tenant B] --> TB[tenant-b-payments]
+    end

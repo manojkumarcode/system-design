@@ -158,4 +158,4 @@ practicing the content.
 
 ## Next Chapter
 
-15 – Cheat Sheet
+[15 – Cheat Sheet](15-Cheat-Sheet.md)

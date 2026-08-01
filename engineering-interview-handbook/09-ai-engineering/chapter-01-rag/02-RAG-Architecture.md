@@ -66,4 +66,5 @@ Generates the final answer.
 The retriever is often more important than the choice of LLM. High-quality document ingestion, metadata, and retrieval typically improve results more than switching to a larger model.
 
 ## Next Chapter
-03 – Document Ingestion
+
+[03 – Document Ingestion](03-Document-Ingestion.md)

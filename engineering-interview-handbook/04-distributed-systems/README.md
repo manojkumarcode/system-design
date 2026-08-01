@@ -20,8 +20,8 @@ search.
 | 02 | [Tenant Isolation Patterns](chapter-08-multi-tenancy/02-Tenant-Isolation-Patterns.md) | ✅ Completed |
 | 03 | [Database Design](chapter-08-multi-tenancy/03-Database-Design.md) | ✅ Completed |
 | 04 | [Spring Boot Implementation](chapter-08-multi-tenancy/04-Spring-Boot-Implementation.md) | ✅ Completed |
-| 05 | Multi-Tenant Kafka | ⬜ Pending |
-| 06 | Multi-Tenant Redis | ⬜ Pending |
+| 05 | [Multi-Tenant Kafka](chapter-08-multi-tenancy/05-Multi-Tenant-Kafka.md) | ✅ Completed |
+| 06 | [Multi-Tenant Redis](chapter-08-multi-tenancy/06-Multi-Tenant-Redis.md) | ✅ Completed |
 | 07 | Multi-Tenant Vector Search | ⬜ Pending |
 | 08 | Security and Compliance | ⬜ Pending |
 | 09 | Scaling and Migration | ⬜ Pending |

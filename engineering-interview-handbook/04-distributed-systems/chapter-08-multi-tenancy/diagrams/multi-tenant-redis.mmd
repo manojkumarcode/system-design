@@ -1,0 +1,11 @@
+flowchart TB
+    subgraph Wrong["Wrong - key collision"]
+        TA1[Tenant A writes] --> K1["customer123"]
+        TB1[Tenant B writes] --> K1
+        K1 -.tenant B silently overwrites tenant A's cache entry.-> BUG[Data collision]
+    end
+    subgraph Right["Correct - namespaced keys"]
+        TA2[Tenant A] --> K2["BT:customer123"]
+        TB2[Tenant B] --> K3["Walmart:customer123"]
+        TC2[Tenant C] --> K4["Amazon:customer123"]
+    end

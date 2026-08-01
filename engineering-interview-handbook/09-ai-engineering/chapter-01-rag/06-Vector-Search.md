@@ -232,4 +232,4 @@ the first two places to check are chunking (Chapter 04) and retrieval
 
 ## Next Chapter
 
-07 – Prompt Augmentation
+[07 – Prompt Augmentation](07-Prompt-Augmentation.md)
