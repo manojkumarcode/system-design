@@ -76,7 +76,135 @@ ahead of time.
   violation. Stating this split explicitly is exactly the kind of
   concrete, non-textbook answer interviewers want.
 
+### What Exactly Is a Network Partition?
+
+Worth pulling apart on its own, because "partition" is the word in CAP
+that gets waved through fastest — and it's the one the whole theorem
+hinges on.
+
+> **A network partition is a communication failure, not a server
+> failure.** The nodes are alive and healthy. The network link between
+> some of them is broken, delayed, or dropping messages. Each side keeps
+> running, unaware of what the other side is doing.
+
+That's the distinction to lead with in an interview: people default to
+picturing "a server is down," but a partition is specifically the case
+where **every node is up** and the failure is purely in the wire between
+them — which is what makes it insidious. A crashed node is easy to
+detect and route around. A partitioned node looks, from its own point of
+view, completely fine — it just can't reach its peers.
+
+**Three DB replicas, one broken link:**
+
+```
+Normally — all three replicate freely:
+
+    DB1 <----> DB2
+    DB2 <----> DB3
+    DB1 <----> DB3
+
+A cable/switch/routing failure breaks one link:
+
+    DB1 <--X--> DB2      ← DB1 and DB2 can no longer talk
+    DB2 <-------> DB3
+    DB1 <-------> DB3
+
+DB1 is alive. DB2 is alive. Both keep serving reads/writes locally.
+Neither can propagate updates to the other. This is the partition.
+```
+
+**Same failure, cloud-native framing — two Availability Zones:**
+
+```
+   Mumbai AZ-1                    Mumbai AZ-2
+   ┌───────────┐   replication   ┌───────────┐
+   │ Database A│ <-------------> │ Database B│
+   └───────────┘                 └───────────┘
+
+           the inter-AZ network link fails
+
+   ┌───────────┐        X        ┌───────────┐
+   │ Database A│ <-------------> │ Database B│
+   └───────────┘                 └───────────┘
+
+   Both databases still accept client connections in their own AZ.
+   Neither can confirm the other received its latest writes.
+```
+
+**The analogy that makes it stick:** two bank branches connected by a
+phone line. Cut the phone line and Delhi keeps serving customers, Mumbai
+keeps serving customers — neither is "down" — but neither knows what the
+other just did. That gap is the partition.
+
+**Why it's dangerous, concretely — the double-withdrawal:**
+
+```
+Account balance, replicated:            DB1: ₹10,000   DB2: ₹10,000
+
+Network partitions. DB1 and DB2 can no longer sync.
+
+Customer A → DB1 → withdraws ₹5,000  →  DB1: ₹5,000    DB2: ₹10,000
+Customer B → DB2 → withdraws ₹5,000  →  DB1: ₹5,000    DB2: ₹5,000
+
+₹10,000 was withdrawn from an account that should have blocked the
+second withdrawal — each replica enforced its own "sufficient balance"
+check against data that was correct locally and stale globally.
+```
+
+This is exactly the fork in the road CAP describes: once DB1 and DB2
+can't confirm each other's state, the system has to pick one of two
+responses to Customer B's request —
+
+- **Reject it** (CP) — "can't verify balance, replica unreachable, try
+  again later" — correctness preserved, availability sacrificed.
+- **Accept it** (AP) — serve the request from local, possibly-stale
+  state, and reconcile (or simply detect and remediate) the conflict once
+  the partition heals — availability preserved, a temporary consistency
+  violation accepted as the cost.
+
+There is no third option that gives both, **for the duration of the
+partition** — the two replicas cannot exchange the information needed to
+guarantee agreement, so any answer given right now is either "possibly
+stale" or "no answer."
+
+**Where real systems land** (useful to have a few memorized, not as
+labels to recite but as evidence you've actually looked):
+
+| System | Behavior during a partition | CAP leaning |
+|---|---|---|
+| ZooKeeper / etcd | Reject writes without quorum | CP |
+| HBase | Reject writes to an unreachable region | CP |
+| MongoDB (majority write concern) | Reject writes without majority ack | CP |
+| Cassandra | Keep serving, tunable per-query consistency level | AP by default, tunable toward CP |
+| DynamoDB | Keep serving, tunable consistency (eventual vs. strong reads) | AP by default |
+| Redis Cluster | Depends on `min-replicas-to-write` config | CP or AP by configuration |
+
+Note this table is really a restatement of the point already made above
+in this section — "tunable per-operation, not a fixed label" — Cassandra
+and Redis Cluster show up on both sides depending on how a given
+operation is configured, which is the answer to give if an interviewer
+pushes on "so is Cassandra CP or AP?"
+
 ### Interview Q&A
+
+**Q: What exactly is a network partition? How is it different from a node crashing?**
+A: A partition is a failure of the *network*, not the *nodes* — every
+node involved is still running and would respond correctly to a client
+that could reach it, but the links between some subset of nodes are
+down, delayed, or dropping traffic, so they can't confirm each other's
+state. A crashed node is comparatively easy to handle: other nodes can
+detect it's unreachable, stop routing to it, and treat it as removed from
+the cluster. A partition is harder specifically because there's
+ambiguity — from DB1's side, is DB2 down, or just unreachable *from
+here*? Those require different responses (evict a dead node vs. degrade
+gracefully while a live-but-unreachable one might still be serving its
+own clients), and a system that conflates the two can make the wrong
+call — e.g., DB1 wrongly evicting a perfectly healthy DB2 and both
+continuing to accept writes as if they were now the sole owner of the
+data, which is worse than either CP or AP handled deliberately. This
+ambiguity is precisely why consensus protocols (Raft, Paxos) exist —
+they give a principled way to establish who's allowed to keep serving
+writes when connectivity is uncertain, rather than each side guessing.
 
 **Q: Explain CAP theorem, and then tell me why that textbook framing is incomplete.**
 A: CAP says that during a network partition, a distributed system must

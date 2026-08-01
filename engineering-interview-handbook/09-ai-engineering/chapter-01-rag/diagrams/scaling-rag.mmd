@@ -1,0 +1,13 @@
+flowchart LR
+    subgraph Query["Query path scaling"]
+        AS[Assistant Service] -->|scale on| QPS[Request QPS / CPU]
+        VDB[Vector DB] -->|scale on| READS[Read replicas / index sharding]
+        LLM[LLM Provider calls] -->|bounded by| RATE[Provider rate limits and cost]
+    end
+    subgraph Ingest["Ingestion path scaling"]
+        IW[Ingestion Workers] -->|scale on| LAG[Kafka consumer lag]
+        LAG -->|capped by| PART[Partition count]
+        EMB[Embedding API calls] -->|throughput via| BATCH[Batching]
+    end
+    RATE -->|mitigate with| CACHE[Semantic + prompt caching]
+    RATE -->|mitigate with| FALLBACK[Fallback provider + circuit breaker]

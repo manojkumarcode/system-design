@@ -24,12 +24,12 @@ security, and a consolidated interview question bank.
 | 07 | [Prompt Augmentation](chapter-01-rag/07-Prompt-Augmentation.md) | ✅ Completed |
 | 08 | [Generation](chapter-01-rag/08-Generation.md) | ✅ Completed |
 | 09 | [End-to-End Flow](chapter-01-rag/09-End-to-End-Flow.md) | ✅ Completed |
-| 10 | Spring AI Implementation | ⬜ Pending |
-| 11 | Production Architecture | ⬜ Pending |
-| 12 | Performance Optimization | ⬜ Pending |
-| 13 | Security | ⬜ Pending |
-| 14 | Interview Questions | ⬜ Pending |
-| 15 | Cheat Sheet | ⬜ Pending |
+| 10 | [Spring AI Implementation](chapter-01-rag/10-Spring-AI-Implementation.md) | ✅ Completed |
+| 11 | [Production Architecture](chapter-01-rag/11-Production-Architecture.md) | ✅ Completed |
+| 12 | [Performance Optimization](chapter-01-rag/12-Performance-Optimization.md) | ✅ Completed |
+| 13 | [Security](chapter-01-rag/13-Security.md) | ✅ Completed |
+| 14 | [Interview Questions](chapter-01-rag/14-Interview-Questions.md) | ✅ Completed |
+| 15 | [Cheat Sheet](chapter-01-rag/15-Cheat-Sheet.md) | ✅ Completed |
 
 Future chapters (planned, not yet numbered): AI Agents, Fine-Tuning,
 Multi-Modal RAG, Evaluation & Observability for LLM systems.

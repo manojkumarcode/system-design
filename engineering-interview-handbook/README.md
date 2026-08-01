@@ -22,7 +22,7 @@ handbook grows.
 
 | # | Track | Status |
 |---|---|---|
-| 09 | [AI Engineering](09-ai-engineering/README.md) | In progress — Chapter 1 (RAG) |
+| 09 | [AI Engineering](09-ai-engineering/README.md) | Chapter 1 (RAG) complete — 15/15 chapters |
 
 ## Related guides
 

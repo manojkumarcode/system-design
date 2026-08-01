@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant Ctrl as RagController
+    participant CC as ChatClient
+    participant QA as QuestionAnswerAdvisor
+    participant VS as VectorStore
+    participant MEM as MessageChatMemoryAdvisor
+    participant CM as ChatModel
+
+    Ctrl->>CC: prompt().user(query).stream()
+    CC->>MEM: inject conversation history
+    CC->>QA: retrieve context for query
+    QA->>VS: similaritySearch(query, topK, aclFilter)
+    VS-->>QA: List of Documents
+    QA->>QA: inject into prompt context
+    CC->>CM: call(assembledPrompt, stream=true)
+    CM-->>CC: Flux of ChatResponse
+    CC-->>Ctrl: Flux of String

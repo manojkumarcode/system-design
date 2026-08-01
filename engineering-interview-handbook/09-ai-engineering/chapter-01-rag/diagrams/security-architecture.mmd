@@ -1,0 +1,12 @@
+flowchart TD
+    U[User Request] --> AUTH[AuthN/AuthZ: who is asking]
+    AUTH --> FILTER[ACL Pre-Filter inside vector search]
+    FILTER --> CTX[Retrieved Context - treated as UNTRUSTED input]
+    CTX --> DELIM[Delimited in prompt: data, not instructions]
+    DELIM --> GEN[Generation]
+    GEN --> OUT[Output Validation: citation-claim alignment, PII scan]
+    OUT --> AUDIT[Audit Log: full trace of who, what, retrieved-what]
+    AUDIT --> RESP[Response to User]
+
+    TOOLS[Tool Calls, if agentic] -.least privilege.-> GEN
+    TOOLS -.human confirm for irreversible actions.-> GEN

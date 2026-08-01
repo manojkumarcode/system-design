@@ -1,0 +1,14 @@
+flowchart TB
+    subgraph Ingestion
+        DR[DocumentReader: Tika/PDF/JSON] --> TR[DocumentTransformer: TokenTextSplitter]
+        TR --> EN[Metadata Enricher]
+        EN --> VW[VectorStore.add]
+    end
+    subgraph Query
+        CC[ChatClient] --> ADV[Advisor Chain]
+        ADV --> QA[QuestionAnswerAdvisor]
+        ADV --> MEM[MessageChatMemoryAdvisor]
+        QA --> VS[VectorStore.similaritySearch]
+        CC --> CM[ChatModel: OpenAI/Bedrock/Anthropic/Ollama]
+    end
+    VW -.writes to.-> VS

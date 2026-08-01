@@ -1,0 +1,16 @@
+flowchart TB
+    LB[Load Balancer / Ingress: buffering disabled, long idle timeout] --> AS1[Assistant Service Pod 1]
+    LB --> AS2[Assistant Service Pod 2]
+    LB --> ASN[Assistant Service Pod N]
+
+    AS1 & AS2 & ASN --> REDIS[(Redis: conversation state)]
+    AS1 & AS2 & ASN --> VDB[(Vector DB: pgvector / managed)]
+    AS1 & AS2 & ASN --> LLM[LLM Provider + circuit breaker + fallback]
+
+    KAFKA[(Kafka: doc-events)] --> IW1[Ingestion Worker Pod 1]
+    KAFKA --> IW2[Ingestion Worker Pod 2]
+    IW1 & IW2 --> VDB
+    IW1 & IW2 --> META[(Metadata Store: Postgres)]
+
+    SECRETS[Secrets Manager: API keys] -.-> AS1 & AS2 & ASN & IW1 & IW2
+    OBS[Observability: tracing, metrics, faithfulness eval] -.-> AS1 & AS2 & ASN & IW1 & IW2
