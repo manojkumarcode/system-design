@@ -1,0 +1,8 @@
+flowchart TD
+    Q[Query Vector] --> ENTRY[Enter HNSW graph at top layer]
+    ENTRY --> NAV[Greedy nearest-neighbor navigation, layer by layer]
+    NAV --> FILTER{ACL / metadata pre-filter}
+    FILTER -->|matches| CAND[Candidate Set]
+    FILTER -->|excluded| SKIP[Skip - never enters candidate set]
+    CAND --> EF[ef_search controls how many candidates explored]
+    EF --> TOPK[Top-K by similarity]

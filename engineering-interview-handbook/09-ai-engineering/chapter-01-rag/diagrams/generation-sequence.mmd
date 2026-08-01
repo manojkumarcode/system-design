@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant U as Client
+    participant A as Assistant Service
+    participant L as LLM Provider
+
+    U->>A: POST /messages {query}
+    A->>A: Retrieval + Prompt Assembly
+    A->>L: generate(prompt, stream=true)
+    loop token stream
+        L-->>A: token
+        A-->>U: event: token
+    end
+    A->>A: Resolve citation metadata from retrieved chunks
+    A-->>U: event: citation
+    alt success
+        A-->>U: event: done {tokensUsed}
+    else provider error mid-stream
+        A-->>U: event: error {code}
+    end
+    A->>A: Persist message (async, off critical path)

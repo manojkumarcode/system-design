@@ -1,0 +1,7 @@
+flowchart LR
+    U[User Query] --> R[Retriever]
+    R --> K[Enterprise Knowledge<br/>Vector DB]
+    K --> R
+    R --> P[Prompt Builder]
+    P --> L[LLM]
+    L --> A[Answer + Citations]

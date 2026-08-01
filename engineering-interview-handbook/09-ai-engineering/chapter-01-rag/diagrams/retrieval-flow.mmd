@@ -1,0 +1,9 @@
+flowchart LR
+    Q[User Query] --> QE[Query Embedding]
+    Q --> BM[BM25 / Keyword Search]
+    QE --> VS[Vector Search - ACL pre-filtered]
+    VS --> RRF[Reciprocal Rank Fusion]
+    BM --> RRF
+    RRF --> TOPN[Top-N Merged Candidates]
+    TOPN --> RR[Cross-Encoder Rerank]
+    RR --> TOPK[Top-K Final Context]

@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph ING["Ingestion Pipeline - async, write path"]
+        direction LR
+        S[Source System] --> C[Connector] --> K[Kafka: doc-events]
+        K --> W[Ingestion Worker]
+        W --> P[Parse + Clean]
+        P --> CH[Chunk]
+        CH --> EM[Embed]
+        EM --> VU[Vector DB Upsert]
+        P --> MD[Metadata Store]
+    end
+
+    subgraph QRY["Query Pipeline - sync, streaming, read path"]
+        direction LR
+        U[User Query] --> QE[Embed Query]
+        QE --> VS[Vector Search - ACL pre-filtered]
+        VS --> RR[Rerank]
+        RR --> PA[Prompt Assembly]
+        PA --> GEN[Generation - streamed]
+        GEN --> ANS[Answer + Citations]
+    end
+
+    VU -.index read by.-> VS
+    MD -.ACL check.-> VS

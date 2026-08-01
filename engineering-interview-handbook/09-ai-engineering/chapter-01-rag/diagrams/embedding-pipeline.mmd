@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant W as Ingestion Worker
+    participant C as Embedding Cache
+    participant M as Embedding Model API
+    participant V as Vector DB
+
+    W->>C: hash(chunkText) lookup
+    alt cache hit
+        C-->>W: cached vector
+    else cache miss
+        W->>M: batch embed([chunk1..chunkN])
+        M-->>W: vectors[]
+        W->>C: store hash -> vector
+    end
+    W->>V: upsert(chunkId, vector, metadata)

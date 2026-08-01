@@ -1,0 +1,12 @@
+flowchart LR
+    A[Source Systems<br/>Confluence / Slack / PDFs / Wikis] -->|webhook or poll| B[Source Connector]
+    B --> C[Change Event<br/>created / updated / deleted]
+    C --> D[Kafka: doc-events]
+    D --> E[Ingestion Worker]
+    E --> F[Parse<br/>Tika / PDF / HTML]
+    F --> G[Clean and Normalize]
+    G --> H[Metadata Enrichment<br/>ACL, source, timestamp]
+    H --> I[Chunking]
+    I --> J[Embedding]
+    J --> K[Vector DB Upsert]
+    H --> L[Metadata Store<br/>source of truth]

@@ -1,0 +1,10 @@
+flowchart TD
+    SP[System Prompt: role, rules, citation format] --> ASM[Prompt Assembler]
+    CTX[Retrieved Context: top-K reranked chunks + citations] --> ASM
+    HIST[Conversation History: recent turns, truncated/summarized] --> ASM
+    Q[User Query] --> ASM
+    ASM --> BUDGET{Fits token budget?}
+    BUDGET -->|No| TRIM[Trim: drop oldest history, then lowest-ranked context]
+    TRIM --> ASM
+    BUDGET -->|Yes| FINAL[Final Prompt]
+    FINAL --> LLM[LLM]

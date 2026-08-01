@@ -1,0 +1,14 @@
+flowchart TD
+    D[Cleaned Document] --> S{Choose Strategy}
+    S -->|Uniform text, no structure| FX[Fixed-Size + Overlap]
+    S -->|Has headings/sections| ST[Structure-Aware<br/>split on headers]
+    S -->|Prose, varying topic density| SE[Semantic<br/>embedding-similarity breakpoints]
+    S -->|Source code| CD[Syntax-Aware<br/>function/class boundaries]
+    S -->|Need both precision and context| PD[Parent-Document / Hierarchical<br/>small chunk to search, large chunk to serve]
+
+    FX --> C[Chunk + Metadata]
+    ST --> C
+    SE --> C
+    CD --> C
+    PD --> C
+    C --> E[Embedding]
