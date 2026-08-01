@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant P as Producer (caller)
+    participant Q as BlockingQueue
+    participant W as Worker Thread
+
+    P->>Q: put(task) / offer(task)
+    Note over W: worker blocked on queue.take()
+    Q-->>W: wakes worker, hands off task
+    W->>W: task.run()
+    W->>Q: queue.take() - loop, block again

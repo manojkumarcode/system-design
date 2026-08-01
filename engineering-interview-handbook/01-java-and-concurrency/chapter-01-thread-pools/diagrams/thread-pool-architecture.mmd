@@ -1,0 +1,5 @@
+flowchart TD
+    SUB["submit(task)"] --> Q[("Task Queue: BlockingQueue of Runnable")]
+    Q --> W1["Worker-1: queue.take() then task.run()"]
+    Q --> W2["Worker-2: queue.take() then task.run()"]
+    Q --> W3["Worker-3: queue.take() then task.run()"]

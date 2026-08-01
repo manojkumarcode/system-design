@@ -9,6 +9,8 @@ each topic can be studied, referenced, and extended independently.
 ```
 engineering-interview-handbook/
 ├── assets/                     # Shared diagrams, images, and cheat sheets
+├── 01-java-and-concurrency/     # Java internals & concurrency track
+│   └── chapter-01-thread-pools/  # Thread pool implementation, in depth
 ├── 04-distributed-systems/      # Distributed systems track
 │   └── chapter-08-multi-tenancy/ # Multi-tenant architecture, in depth
 └── 09-ai-engineering/            # AI/LLM engineering track
@@ -27,6 +29,7 @@ shipped as Chapter 08 of the Distributed Systems track before Chapters
 
 | # | Track | Status |
 |---|---|---|
+| 01 | [Java & Concurrency](01-java-and-concurrency/README.md) | Chapter 1 (Thread Pools) complete |
 | 04 | [Distributed Systems](04-distributed-systems/README.md) | Chapter 8 (Multi-Tenancy) in progress |
 | 09 | [AI Engineering](09-ai-engineering/README.md) | Chapter 1 (RAG) complete — 15/15 chapters |
 
