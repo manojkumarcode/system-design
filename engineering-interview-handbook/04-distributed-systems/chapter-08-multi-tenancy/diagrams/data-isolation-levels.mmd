@@ -1,0 +1,8 @@
+flowchart TD
+    L1["Application Level: WHERE tenant_id = ? in every query"] --> L2
+    L2["Database Level: separate schema per tenant"] --> L3
+    L3["Physical Level: separate database/instance per tenant"]
+
+    L1 -.weakest, cheapest.-> NOTE1[Pattern 1]
+    L2 -.moderate.-> NOTE2[Pattern 2]
+    L3 -.strongest, most expensive.-> NOTE3[Pattern 3]

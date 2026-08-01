@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph P1["Pattern 1: Shared DB, Shared Schema"]
+        T1[All tenants] --> DB1[(One table, tenant_id column)]
+    end
+    subgraph P2["Pattern 2: Shared DB, Separate Schema"]
+        TA[Tenant A] --> SA[(Schema A)]
+        TB[Tenant B] --> SB[(Schema B)]
+        TC[Tenant C] --> SC[(Schema C)]
+        SA & SB & SC -.same database instance.- DBX[(Database)]
+    end
+    subgraph P3["Pattern 3: Separate DB per Tenant"]
+        TX[Tenant A] --> DBA[(DB-A)]
+        TY[Tenant B] --> DBB[(DB-B)]
+        TZ[Tenant C] --> DBC[(DB-C)]
+    end
+    subgraph P4["Pattern 4: Hybrid"]
+        SMALL[Small customers] --> SHARED[(Shared DB)]
+        LARGE[Large enterprise] --> DEDICATED[(Dedicated DB)]
+    end

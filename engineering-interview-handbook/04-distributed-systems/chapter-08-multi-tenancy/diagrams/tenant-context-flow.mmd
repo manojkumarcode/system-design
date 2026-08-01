@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant C as Client
+    participant F as TenantFilter
+    participant TC as TenantContext (ThreadLocal)
+    participant S as Service
+    participant R as Repository
+    participant DB as Database
+
+    C->>F: Request + JWT
+    F->>F: Extract tenant claim from JWT
+    F->>TC: TenantContext.setTenant(tenantId)
+    F->>S: doFilter (continue chain)
+    S->>R: findOrders()
+    R->>TC: TenantContext.getTenant()
+    R->>DB: SELECT ... WHERE tenant_id = ? (or routed schema/datasource)
+    DB-->>R: rows
+    R-->>S: results
+    S-->>C: response
+    F->>TC: TenantContext.clear() - always, in a finally block

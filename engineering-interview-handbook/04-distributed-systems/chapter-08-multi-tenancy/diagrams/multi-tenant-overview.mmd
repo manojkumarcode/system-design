@@ -1,0 +1,8 @@
+flowchart TB
+    I[Internet] --> LB[Load Balancer]
+    LB --> APP[Spring Boot Cluster - single deployed application]
+    APP --> TR{Tenant Resolver}
+    TR -->|tenant: A| A[Tenant A's data]
+    TR -->|tenant: B| B[Tenant B's data]
+    TR -->|tenant: C| C[Tenant C's data]
+    A & B & C --> DB[(Shared Database or per-tenant DB)]
